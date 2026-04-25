@@ -73,8 +73,12 @@ with col1:
         st.metric("Total Spent", f"${total_spent:.2f}")
 
 with col2:
-    avg_daily = total_spent / int(len(st.session_state.expenses['Date'].unique()))
-    st.metric("Daily Average", f"${avg_daily:.2f}")
+    if len(st.session_state.expenses) > 0:
+        unique_days = st.session_state.expenses['Date'].nunique()
+        avg_daily = total_spent / unique_days
+        st.metric("Daily Average", f"${avg_daily:.2f}")
+    else:
+        st.metric("Daily Average", "$0.00")
 
 with col3:
     top_category = st.session_state.expenses.groupby("Category")["Amount"].sum().idxmax()
