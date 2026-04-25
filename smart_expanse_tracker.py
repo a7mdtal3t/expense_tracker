@@ -81,8 +81,11 @@ with col2:
         st.metric("Daily Average", "$0.00")
 
 with col3:
-    top_category = st.session_state.expenses.groupby("Category")["Amount"].sum().idxmax()
-    st.metric("Top Category", f"${top_category}")
+    if len(st.session_state.expenses) > 0 and st.session_state.expenses['Amount'].sum() > 0:
+        top_category = st.session_state.expenses.groupby("Category")["Amount"].sum().idxmax()
+        st.metric("Top Category", f"{category_emojis.get(top_category, '')} {top_category}")
+    else:
+        st.metric("Top Category", "No data")
 
 #=============Editable Expense Table with column config=============
 st.subheader("🗃️ Your Expenses (Editable)")
