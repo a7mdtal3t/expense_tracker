@@ -20,7 +20,7 @@ if 'expenses' not in st.session_state:
     })
 
 #=============Categories Emojis=============
-Category_Emojis = {
+category_emojis = {
     "Food":"🍔", "Transport": "🚗", "Entertainment": "🎬", "Bills": "💡", "Shopping": "🛍️",
     "Education": "📚", "Health": "💊", "Other": "📦"
 }
