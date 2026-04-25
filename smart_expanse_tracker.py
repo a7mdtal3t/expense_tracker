@@ -81,7 +81,7 @@ with col2:
         st.metric("Daily Average", "$0.00")
 
 with col3:
-    if len(st.session_state.expenses) > 0 and st.session_state.expenses['Amount'].sum() > 0:
+    if len(st.session_state.expenses) > 0:
         top_category = st.session_state.expenses.groupby("Category")["Amount"].sum().idxmax()
         st.metric("Top Category", f"{category_emojis.get(top_category, '')} {top_category}")
     else:
