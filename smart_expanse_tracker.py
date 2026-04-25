@@ -20,7 +20,7 @@ if 'expenses' not in st.session_state:
     })
 
 #=============Categories Emojis=============
-category_emojis = {
+Category_Emojis = {
     "Food":"🍔", "Transport": "🚗", "Entertainment": "🎬", "Bills": "💡", "Shopping": "🛍️",
     "Education": "📚", "Health": "💊", "Other": "📦"
 }
@@ -83,7 +83,7 @@ with col2:
 with col3:
     if len(st.session_state.expenses) > 0:
         top_category = st.session_state.expenses.groupby("Category")["Amount"].sum().idxmax()
-        st.metric("Top Category", f"{category_emojis.get(top_category, '')} {top_category}")
+        st.metric("Top Category", f"{Category_Emojis.get(top_category, '')} {top_category}")
     else:
         st.metric("Top Category", "No data")
 
