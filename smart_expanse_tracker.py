@@ -120,8 +120,10 @@ tab1, tab2, tab3 = st.tabs(["By Category", "Timeline", "Payment Method"])
 with tab1:
     category_summery = edited_df.groupby("Category")["Amount"].sum().reset_index()
     category_summery["Percentage"] = (category_summery['Amount'] / category_summery['Amount'].sum() * 100).round(1)
-    category_summery['Emoji'] = category_summery['Category'].map(Category_Emojis)
-    category_summery['Display'] = category_summery['Emoji'] + "" + category_summery['Category']
+    #category_summery['Emoji'] = category_summery['Category'].map(Category_Emojis)
+    #category_summery['Display'] = category_summery['Emoji'] + "" + category_summery['Category']
+    # Skip the Emoji column entirely and create Display in one line
+    category_summery['Display'] = category_summery['Category'].map(category_emojis).astype(str) + " " + category_summery['Category']
 
     st.dataframe(
         category_summery,
