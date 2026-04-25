@@ -64,7 +64,7 @@ with st.sidebar:
 
 col1, col2, col3 = st.columns(3)
 with col1:
-     total_spent = st.session_state.expenses['Amount'].sum()
+    total_spent = st.session_state.expenses['Amount'].sum()
     # Only calculate delta if there are expenses
     if len(st.session_state.expenses) > 0:
         last_amount = st.session_state.expenses['Amount'].iloc[-1]
