@@ -123,7 +123,7 @@ with tab1:
     #category_summery['Emoji'] = category_summery['Category'].map(Category_Emojis)
     #category_summery['Display'] = category_summery['Emoji'] + "" + category_summery['Category']
     # Skip the Emoji column entirely and create Display in one line
-    category_summery['Display'] = category_summery['Category'].map(category_emojis).astype(str) + " " + category_summery['Category']
+    category_summery['Display'] = category_summery['Category'].map(Category_Emojis).astype(str) + " " + category_summery['Category']
 
     st.dataframe(
         category_summery,
