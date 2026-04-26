@@ -118,30 +118,36 @@ st.subheader("📊 Spending Analysis")
 tab1, tab2, tab3 = st.tabs(["By Category", "Timeline", "Payment Method"])
 
 with tab1:
-    category_summery = edited_df.groupby("Category")["Amount"].sum().reset_index()
-    category_summery["Percentage"] = (category_summery['Amount'] / category_summery['Amount'].sum() * 100).round(1)
-    
-    # First, create the Emoji column
-    category_summery['Emoji'] = category_summery['Category'].map(Category_Emojis)
-    # Then create the Display column using the Emoji column
-    category_summery['Display'] = category_summery['Emoji'] + " " + category_summery['Category']
-
-
-    st.dataframe(
-        category_summery,
-        column_config={
-            "Display": "Category",
-            "Amount": st.column_config.NumberColumn("Total Spent", format="$%.2f"),
-            "Percentage": st.column_config.ProgressColumn(
-                "Budget Usage",
-                format="%.2f%%",
-                min_value=0,
-                max_value=100,
-            )
-        },
-        hide_index=True,
-    )
-
+    if edited_df.empty:
+        st.info("📭 No expenses yet. Add some expenses to see category analysis!")
+    else:
+        category_summary = edited_df.groupby("Category")["Amount"].sum().reset_index()
+        
+        total = category_summary['Amount'].sum()
+        if total > 0:
+            category_summary["Percentage"] = (category_summary['Amount'] / total * 100).round(1)
+        else:
+            category_summary["Percentage"] = 0
+        
+        # Use the CORRECT variable name (lowercase)
+        category_summary['Emoji'] = category_summary['Category'].map(Category_Emojis).fillna('❓')
+        category_summary['Display'] = category_summary['Emoji'] + " " + category_summary['Category']
+        
+        st.dataframe(
+            category_summary[['Display', 'Amount', 'Percentage']],
+            column_config={
+                "Display": "Category",
+                "Amount": st.column_config.NumberColumn("Total Spent", format="$%.2f"),
+                "Percentage": st.column_config.ProgressColumn(
+                    "Budget Usage",
+                    format="%.1f%%",
+                    min_value=0,
+                    max_value=100,
+                )
+            },
+            hide_index=True,
+            use_container_width=True
+        )
 with tab2:
     daily = edited_df.groupby('Date')['Amount'].sum().reset_index()
     st.line_chart(daily.set_index('Date')['Amount'])
